@@ -1,1207 +1,1570 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Dashboard Pro</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        blue: {"500":"#3b82f6"},
-                        purple: {"500":"#8b5cf6", "600":"#7c3aed"},
-                        pink: {"500":"#ec4899", "600":"#db2777"},
-                        gray: {
-                            "800": "#1e293b",
-                            "900": "#0f172a"
-                        },
-                        "deep-black": "#020617",
-                    },
-                    fontFamily: {
-                        'sans': ['Inter', 'Helvetica', 'Arial', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        'glow': '0 0 15px rgba(139, 92, 246, 0.3)',
-                    }
-                },
-            },
-        }
-    </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Dashboard Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+      tailwind.config = {
+          darkMode: 'class',
+          theme: {
+              extend: {
+                  colors: {
+                      blue: {"500":"#3b82f6"},
+                      purple: {"500":"#8b5cf6", "600":"#7c3aed"},
+                      pink: {"500":"#ec4899", "600":"#db2777"},
+                      gray: {
+                          "800": "#1e293b",
+                          "900": "#0f172a"
+                      },
+                      "deep-black": "#020617",
+                  },
+                  fontFamily: {
+                      'sans': ['Inter', 'Helvetica', 'Arial', 'sans-serif'],
+                  },
+                  boxShadow: {
+                      'glow': '0 0 15px rgba(139, 92, 246, 0.3)',
+                      'premium': '0 10px 30px -10px rgba(2, 6, 23, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05)',
+                      'card': '0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.15)',
+                  }
+              },
+          },
+      }
+  </script>
+  <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #020617;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 30%),
-                radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 30%);
-            background-attachment: fixed;
-        }
+      body {
+          font-family: 'Inter', sans-serif;
+          background-color: #020617;
+          background-image: 
+              radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.03) 0%, transparent 30%),
+              radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.03) 0%, transparent 30%);
+          background-attachment: fixed;
+          letter-spacing: -0.01em;
+      }
 
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
+      .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+      }
 
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: 10px;
-        }
+      .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(30, 41, 59, 0.2);
+          border-radius: 10px;
+      }
 
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: linear-gradient(to bottom, #8b5cf6, #3b82f6, #ec4899);
-            border-radius: 10px;
-        }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: linear-gradient(to bottom, #8b5cf6, #3b82f6, #ec4899);
+          border-radius: 10px;
+      }
 
-        .capitalize { text-transform: capitalize; }
-        .break-all { word-break: break-all; }
-        .bg-deep-black { background-color: rgba(2, 6, 23, 0.9); }
+      .capitalize { text-transform: capitalize; }
+      .break-all { word-break: break-all; }
+      .bg-deep-black { background-color: rgba(2, 6, 23, 0.9); }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
+      @keyframes pulse {
+          0%, 100% { opacity: 0.5; }
+          50% { opacity: 1; }
+      }
 
-        .loading-pulse { animation: pulse 1.5s ease-in-out infinite; }
+      .loading-pulse { animation: pulse 1.5s ease-in-out infinite; }
 
-        @keyframes pulse-scale {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.9; }
-        }
+      @keyframes pulse-scale {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.05); opacity: 0.9; }
+      }
 
-        .animate-pulse-scale { animation: pulse-scale 2s ease-in-out infinite; }
+      .animate-pulse-scale { animation: pulse-scale 2s ease-in-out infinite; }
 
-        @keyframes rotateRight {
-            0% { transform: rotate(-90deg); }
-            100% { transform: rotate(0deg); }
-        }
+      @keyframes rotateRight {
+          0% { transform: rotate(-90deg); }
+          100% { transform: rotate(0deg); }
+      }
 
-        @keyframes rotateDown {
-            0% { transform: rotate(-90deg); }
-            100% { transform: rotate(0deg); }
-        }
+      @keyframes rotateDown {
+          0% { transform: rotate(-90deg); }
+          100% { transform: rotate(0deg); }
+      }
 
-        .rotate-right { animation: rotateRight 0.3s ease-in-out forwards; }
-        .rotate-down { animation: rotateDown 0.3s ease-in-out forwards; }
-        .gradient-bg { background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899); }
-        .gradient-border {
-            position: relative;
-            border: 1px solid transparent;
-            background-clip: padding-box;
-        }
+      .rotate-right { animation: rotateRight 0.3s ease-in-out forwards; }
+      .rotate-down { animation: rotateDown 0.3s ease-in-out forwards; }
+      .gradient-bg { background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899); }
+      .gradient-border {
+          position: relative;
+          border: 1px solid transparent;
+          background-clip: padding-box;
+      }
 
-        .gradient-border::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            margin: -1px;
-            border-radius: inherit;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
-            z-index: -1;
-        }
+      .gradient-border::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          margin: -1px;
+          border-radius: inherit;
+          background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+          z-index: -1;
+      }
 
-        .gradient-text {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            color: transparent;
-        }
+      .gradient-text {
+          background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          color: transparent;
+      }
 
-        .helvetica-heading { font-weight: 700; letter-spacing: -0.025em; }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      .helvetica-heading { font-weight: 700; letter-spacing: -0.025em; }
+      .scrollbar-hide::-webkit-scrollbar { display: none; }
+      .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-        @keyframes fadeInScale {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
-        }
+      @keyframes fadeInScale {
+          0% { opacity: 0; transform: scale(0.95); }
+          100% { opacity: 1; transform: scale(1); }
+      }
 
-        .card-animate { animation: fadeInScale 0.5s ease-out forwards; }
-        body.sidebar-open { overflow: hidden; }
-        .icon-highlight:focus { outline: none; }
-        .custom-scrollbar { scrollbar-width: thin; scrollbar-color: rgba(139, 92, 246, 0.5) transparent; }
+      .card-animate { animation: fadeInScale 0.5s ease-out forwards; }
+      body.sidebar-open { overflow: hidden; }
+      .icon-highlight:focus { outline: none; }
+      .custom-scrollbar { scrollbar-width: thin; scrollbar-color: rgba(139, 92, 246, 0.5) transparent; }
 
-        .hide-scrollbar:hover,
-        .hide-scrollbar:focus,
-        .hide-scrollbar:focus-within {
-            scrollbar-width: thin;
-            -ms-overflow-style: auto;
-        }
+      .hide-scrollbar:hover,
+      .hide-scrollbar:focus,
+      .hide-scrollbar:focus-within {
+          scrollbar-width: thin;
+          -ms-overflow-style: auto;
+      }
 
-        .hide-scrollbar:hover::-webkit-scrollbar,
-        .hide-scrollbar:focus::-webkit-scrollbar,
-        .hide-scrollbar:focus-within::-webkit-scrollbar { display: block; }
+      .hide-scrollbar:hover::-webkit-scrollbar,
+      .hide-scrollbar:focus::-webkit-scrollbar,
+      .hide-scrollbar:focus-within::-webkit-scrollbar { display: block; }
 
-        .method-btn.active { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; }
-        .dropdown { position: relative; display: inline-block; }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            min-width: 320px;
-            z-index: 50;
-            background-color: #1e293b;
-            border: 1px solid rgba(139, 92, 246, 0.2);
-            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.2);
-        }
+      .method-btn.active { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; }
+      .dropdown { position: relative; display: inline-block; }
+      .dropdown-content {
+          display: none;
+          position: absolute;
+          right: 0;
+          min-width: 320px;
+          z-index: 50;
+          background-color: rgba(30, 41, 59, 0.95);
+          border: 1px solid rgba(139, 92, 246, 0.1);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+          backdrop-filter: blur(10px);
+          border-radius: 12px;
+      }
 
-        .dropdown-content.show { display: block; }
-        .category-card { transition: all 0.3s ease; border: 1px solid rgba(139, 92, 246, 0.1); }
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.15);
-            border: 1px solid rgba(139, 92, 246, 0.3);
-        }
+      .dropdown-content.show { display: block; }
+      .category-card { transition: all 0.3s ease; border: 1px solid rgba(139, 92, 246, 0.1); }
+      .category-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 25px rgba(139, 92, 246, 0.15);
+          border: 1px solid rgba(139, 92, 246, 0.3);
+      }
 
-        .api-card { transition: border-color 0.3s ease; border: 1px solid rgba(139, 92, 246, 0.1); }
-        .api-card:hover { border: 1px solid rgba(139, 92, 246, 0.3); }
-        .glass { background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(139, 92, 246, 0.1); }
+      .api-card { 
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+          border: 1px solid rgba(139, 92, 246, 0.05);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+      
+      .api-card:hover { 
+          border: 1px solid rgba(139, 92, 246, 0.2);
+          transform: translateY(-2px);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      }
+      
+      .glass { 
+          background: rgba(15, 23, 42, 0.7); 
+          border: 1px solid rgba(139, 92, 246, 0.05);
+          backdrop-filter: blur(10px);
+      }
 
-        .btn-hover { position: relative; overflow: hidden; z-index: 1; }
-        .btn-hover:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
-            z-index: -2;
-        }
+      .premium-glass {
+          background: rgba(15, 23, 42, 0.5);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(10px);
+          box-shadow: 0 10px 30px -10px rgba(2, 6, 23, 0.8);
+      }
 
-        .btn-hover:before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(135deg, #ec4899, #8b5cf6, #3b82f6);
-            transition: all .3s;
-            z-index: -1;
-        }
+      .btn-hover { position: relative; overflow: hidden; z-index: 1; }
+      .btn-hover:after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+          z-index: -2;
+      }
 
-        .btn-hover:hover:before { width: 100%; }
-        .glow { box-shadow: 0 0 15px rgba(139, 92, 246, 0.3); }
-        .glow:hover { box-shadow: 0 0 20px rgba(139, 92, 246, 0.5); }
-        .input-focus:focus { box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5); }
+      .btn-hover:before {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 0%;
+          height: 100%;
+          background: linear-gradient(135deg, #ec4899, #8b5cf6, #3b82f6);
+          transition: all .3s;
+          z-index: -1;
+      }
 
-        .sidebar-item { position: relative; transition: all 0.3s ease; }
-        .sidebar-item.active {
-            background: linear-gradient(90deg, rgba(139, 92, 246, 0.2), transparent);
-            border-left: 3px solid #8b5cf6;
-        }
+      .btn-hover:hover:before { width: 100%; }
+      .glow { box-shadow: 0 0 15px rgba(139, 92, 246, 0.3); }
+      .glow:hover { box-shadow: 0 0 20px rgba(139, 92, 246, 0.5); }
+      .input-focus:focus { box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5); }
 
-        .sidebar-item.active svg { color: #8b5cf6; }
-        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .json-string { color: #a5d6ff; }
-        .json-number { color: #79c0ff; }
-        .json-boolean { color: #ff7b72; }
-        .json-null { color: #ff7b72; }
-        .json-key { color: #d2a8ff; }
-        .json-punctuation { color: #c9d1d9; }
+      .sidebar-item { 
+          position: relative; 
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          border-radius: 8px;
+          margin-bottom: 4px;
+      }
+      
+      .sidebar-item.active {
+          background: linear-gradient(90deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05));
+          border-left: 3px solid #8b5cf6;
+      }
 
-        .api-btn { position: relative; overflow: hidden; transition: all 0.3s ease; transform: translateZ(0); will-change: transform, box-shadow; }
-        .api-btn:hover { transform: translateY(-2px); }
-        .api-btn:active { transform: translateY(0); }
+      .sidebar-item.active svg { color: #8b5cf6; }
+      .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+      .json-string { color: #a5d6ff; }
+      .json-number { color: #79c0ff; }
+      .json-boolean { color: #ff7b72; }
+      .json-null { color: #ff7b72; }
+      .json-key { color: #d2a8ff; }
+      .json-punctuation { color: #c9d1d9; }
 
-        .endpoint-display {
-            position: relative;
-            border-radius: 0.5rem;
-            background-color: #121212;
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            padding: 0.5rem;
-            transition: all 0.3s ease;
-            overflow-x: auto;
-            white-space: nowrap;
-            word-break: break-all;
-        }
+      .api-btn { 
+          position: relative; 
+          overflow: hidden; 
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+          transform: translateZ(0); 
+          will-change: transform, box-shadow;
+          border-radius: 8px;
+      }
+      
+      .api-btn:hover { 
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+      
+      .api-btn:active { 
+          transform: translateY(0);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
 
-        .endpoint-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
+      .endpoint-display {
+          position: relative;
+          border-radius: 8px;
+          background-color: rgba(18, 18, 18, 0.6);
+          border: 1px solid rgba(139, 92, 246, 0.1);
+          padding: 0.75rem;
+          transition: all 0.3s ease;
+          overflow-x: auto;
+          white-space: nowrap;
+          word-break: break-all;
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
 
-        .endpoint-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #8b5cf6;
-            margin-right: 0.75rem;
-        }
+      .endpoint-header {
+          display: flex;
+          align-items: center;
+          margin-bottom: 0.5rem;
+      }
 
-        .endpoint-copy-btn {
-            background: transparent;
-            border: none;
-            color: #8b5cf6;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+      .endpoint-title {
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: #8b5cf6;
+          margin-right: 0.75rem;
+      }
 
-        .endpoint-url {
-            color: #ffffff;
-            font-family: monospace;
-            font-size: 1rem;
-            word-break: break-all;
-            white-space: pre-wrap;
-        }
+      .endpoint-copy-btn {
+          background: transparent;
+          border: none;
+          color: #8b5cf6;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
+      }
 
-        .method-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.25rem 0.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            border-radius: 0.25rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
+      .endpoint-copy-btn:hover {
+          transform: scale(1.1);
+      }
 
-        .method-badge.get { background-color: rgba(59, 130, 246, 0.2); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); }
+      .endpoint-url {
+          color: #ffffff;
+          font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+          font-size: 0.875rem;
+          word-break: break-all;
+          white-space: pre-wrap;
+      }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+      .method-badge {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0.25rem 0.5rem;
+          font-size: 0.75rem;
+          font-weight: 600;
+          border-radius: 6px;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+      }
 
-        .loading-spinner { animation: spin 1.5s linear infinite; }
+      .method-badge.get { 
+          background-color: rgba(59, 130, 246, 0.1); 
+          color: #3b82f6; 
+          border: 1px solid rgba(59, 130, 246, 0.2); 
+      }
 
-        /* Loading Bar Styles */
-        .loading-bar-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background-color: transparent;
-            z-index: 9999;
-        }
+      /* Fast Charging Loading Bar */
+      .center-loading-container {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: rgba(2, 6, 23, 0.7);
+          z-index: 9999;
+          backdrop-filter: blur(8px);
+      }
 
-        .loading-bar {
-            height: 100%;
-            width: 0;
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
-            animation: loading 2s infinite;
-        }
+      .loading-bar-container {
+          width: 200px;
+          height: 6px;
+          background: rgba(30, 41, 59, 0.5);
+          border-radius: 10px;
+          overflow: hidden;
+          position: relative;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
 
-        @keyframes loading {
-            0% { width: 0; }
-            50% { width: 100%; }
-            100% { width: 0; }
-        }
+      .loading-bar {
+          height: 100%;
+          width: 0%;
+          background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+          border-radius: 10px;
+          transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+      }
 
-        /* Hide loading bar by default */
-        .loading-bar-container.hidden {
-            display: none;
-        }
-    </style>
+      /* Hide center loading by default */
+      .center-loading-container.hidden {
+          display: none;
+      }
+
+      /* Notification Badge */
+      .notification-badge {
+          position: absolute;
+          top: -6px;
+          right: -6px;
+          min-width: 16px;
+          height: 16px;
+          background-color: #3b82f6;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 10px;
+          font-weight: bold;
+          color: white;
+          padding: 0 4px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Animation for API results */
+      @keyframes fadeInUp {
+          from {
+              opacity: 0;
+              transform: translateY(10px);
+          }
+          to {
+              opacity: 1;
+              transform: translateY(0);
+          }
+      }
+
+      .fade-in-up {
+          animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      /* Premium button styles */
+      .premium-btn {
+          background: rgba(30, 41, 59, 0.5);
+          border: 1px solid rgba(139, 92, 246, 0.1);
+          border-radius: 8px;
+          padding: 0.5rem 1rem;
+          font-weight: 500;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          backdrop-filter: blur(4px);
+      }
+
+      .premium-btn:hover {
+          background: rgba(30, 41, 59, 0.7);
+          border-color: rgba(139, 92, 246, 0.3);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .premium-btn:active {
+          transform: translateY(0);
+      }
+
+      /* Premium input styles */
+      .premium-input {
+          background: rgba(30, 41, 59, 0.3);
+          border: 1px solid rgba(139, 92, 246, 0.1);
+          border-radius: 8px;
+          padding: 0.75rem 1rem;
+          color: white;
+          transition: all 0.3s ease;
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .premium-input:focus {
+          border-color: rgba(139, 92, 246, 0.3);
+          box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.05);
+          outline: none;
+      }
+
+      /* Premium card styles */
+      .premium-card {
+          background: rgba(30, 41, 59, 0.4);
+          border: 1px solid rgba(139, 92, 246, 0.05);
+          border-radius: 12px;
+          overflow: hidden;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          backdrop-filter: blur(10px);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .premium-card:hover {
+          border-color: rgba(139, 92, 246, 0.15);
+          transform: translateY(-2px);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Subtle gradient border */
+      .gradient-border-subtle {
+          position: relative;
+          border-radius: 12px;
+          padding: 1px;
+          background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+      }
+
+      .gradient-border-subtle::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: 12px;
+          padding: 1px;
+          background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+      }
+
+      /* Subtle divider */
+      .subtle-divider {
+          height: 1px;
+          background: linear-gradient(to right, transparent, rgba(139, 92, 246, 0.1), transparent);
+      }
+
+      /* Premium response container */
+      .premium-response {
+          background: rgba(18, 18, 18, 0.4);
+          border-radius: 8px;
+          border: 1px solid rgba(139, 92, 246, 0.05);
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Test API icon colors */
+      .test-api-icon {
+          color: #8b5cf6;
+      }
+      
+      .test-api-icon:hover {
+          color: #ec4899;
+      }
+
+      /* View more button */
+      .view-more-btn {
+          background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+          border: 1px solid rgba(139, 92, 246, 0.1);
+          border-radius: 8px;
+          padding: 0.75rem 1.5rem;
+          font-weight: 500;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          text-align: center;
+          color: white;
+      }
+
+      .view-more-btn:hover {
+          background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+          border-color: rgba(139, 92, 246, 0.3);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+  </style>
 </head>
 <body class="bg-deep-black text-gray-100">
-    <!-- Loading Bar -->
-    <div id="loadingBar" class="loading-bar-container hidden">
-        <div class="loading-bar"></div>
-    </div>
+  <!-- Center Loading Animation -->
+  <div id="centerLoading" class="center-loading-container hidden">
+      <div class="loading-bar-container">
+          <div id="loadingBar" class="loading-bar"></div>
+      </div>
+  </div>
 
-    <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar Overlay -->
-        <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm hidden z-40"></div>
+  <div class="flex h-screen overflow-hidden">
+      <!-- Sidebar Overlay -->
+      <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm hidden z-40"></div>
 
-        <!-- Sidebar -->
-        <div id="sidebar" class="fixed inset-y-0 left-0 z-50 w-80 transform overflow-y-auto glass transition-all duration-300 ease-in-out -translate-x-full md:relative md:translate-x-0 custom-scrollbar hide-scrollbar">
-            <div class="flex h-full flex-col">
-                <div class="flex flex-col">
-                    <div class="flex items-center justify-between p-4 h-16">
-                        <h2 id="sidebarTitle" class="text-sm font-medium text-white flex items-center helvetica-heading">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
-                                <defs>
-                                    <linearGradient id="gradient-stroke" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#3b82f6" />
-                                        <stop offset="50%" stop-color="#8b5cf6" />
-                                        <stop offset="100%" stop-color="#ec4899" />
-                                    </linearGradient>
-                                </defs>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
-                            </svg>
-                            <span id="sidebarTitleText" class="gradient-text text-lg">API Dashboard Pro</span>
-                        </h2>
-                    </div>
-                    <div class="h-[1px] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 w-full"></div>
-                </div>
-                <nav id="sidebarNav" class="flex-1 space-y-1 px-3 py-6 mt-4">
-                    <div class="mb-4">
-                        <button id="homeLink" class="sidebar-item active flex w-full items-center justify-between rounded-md px-4 py-3 text-left text-sm font-medium text-gray-100 transition-colors duration-200 ease-in-out hover:bg-gray-800 hover:bg-opacity-50 focus:outline-none focus:ring-2 focus:ring-purple-500">
-                            <span class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                </svg>
-                                Home
-                            </span>
-                        </button>
-                    </div>
-                    <div class="mb-4">
-                        <button id="statsLink" class="sidebar-item flex w-full items-center justify-between rounded-md px-4 py-3 text-left text-sm font-medium text-gray-100 transition-colors duration-200 ease-in-out hover:bg-gray-800 hover:bg-opacity-50 focus:outline-none focus:ring-2 focus:ring-purple-500">
-                            <span class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                </svg>
-                                Stats
-                            </span>
-                        </button>
-                    </div>
-                </nav>
-            </div>
-        </div>
+      <!-- Sidebar -->
+      <div id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 transform overflow-y-auto premium-glass transition-all duration-300 ease-in-out -translate-x-full md:relative md:translate-x-0 custom-scrollbar hide-scrollbar">
+          <div class="flex h-full flex-col">
+              <div class="flex flex-col">
+                  <div class="flex items-center justify-between p-5 h-16">
+                      <h2 id="sidebarTitle" class="text-sm font-medium text-white flex items-center helvetica-heading">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
+                              <defs>
+                                  <linearGradient id="gradient-stroke" x1="0%" y1="0%" x2="100%" y2="100%">
+                                      <stop offset="0%" stop-color="#3b82f6" />
+                                      <stop offset="50%" stop-color="#8b5cf6" />
+                                      <stop offset="100%" stop-color="#ec4899" />
+                                  </linearGradient>
+                              </defs>
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                          </svg>
+                          <span id="sidebarTitleText" class="gradient-text text-lg font-semibold">API Dashboard Pro</span>
+                      </h2>
+                  </div>
+                  <div class="subtle-divider w-full"></div>
+              </div>
+              <nav id="sidebarNav" class="flex-1 space-y-1 px-4 py-6 mt-2">
+                  <div class="mb-4">
+                      <button id="homeLink" class="sidebar-item active flex w-full items-center justify-between rounded-md px-4 py-3 text-left text-sm font-medium text-gray-100 transition-colors duration-200 ease-in-out hover:bg-gray-800 hover:bg-opacity-30 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                          <span class="flex items-center">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                              </svg>
+                              Home
+                          </span>
+                      </button>
+                  </div>
+                  <div class="mb-4">
+                      <button id="statsLink" class="sidebar-item flex w-full items-center justify-between rounded-md px-4 py-3 text-left text-sm font-medium text-gray-100 transition-colors duration-200 ease-in-out hover:bg-gray-800 hover:bg-opacity-30 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                          <span class="flex items-center">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                              </svg>
+                              Stats
+                          </span>
+                      </button>
+                  </div>
+              </nav>
+          </div>
+      </div>
 
-        <!-- Main content -->
-        <div class="relative flex flex-1 flex-col overflow-y-auto bg-deep-black custom-scrollbar hide-scrollbar">
-            <!-- Header -->
-            <header class="sticky top-0 z-30 glass border-b border-purple-500 border-opacity-30">
-                <div class="container mx-auto">
-                    <div class="flex flex-col">
-                        <div class="flex h-16 items-center justify-between px-4">
-                            <button id="toggleSidebar" class="md:hidden bg-gray-800 bg-opacity-50 p-2 rounded-md border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300 hover:border-purple-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h8m-8 6h16" />
-                                </svg>
-                            </button>
-                            <div id="greeting" class="text-sm font-medium text-gray-100 gradient-text"></div>
-                            <div class="flex items-center">
-                                <!-- Notifications dropdown -->
-                                <div class="dropdown">
-                                    <button id="showNotifications" class="bg-gray-800 bg-opacity-50 p-2 rounded-md border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300 hover:border-purple-500">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                        </svg>
-                                    </button>
-                                    <div id="notificationsDropdown" class="dropdown-content rounded-lg shadow-lg mt-2 bg-gray-800 border border-gray-700">
-                                        <div class="p-4">
-                                            <div class="flex items-center justify-between mb-4">
-                                                <h3 class="text-lg font-semibold gradient-text">Notifications</h3>
-                                                <div class="flex items-center space-x-2">
-                                                    <button id="readAllNotifications" class="text-xs text-gray-400 hover:text-white px-2 py-1 rounded border border-gray-700 hover:border-purple-500 transition-all duration-200">
-                                                        Read All
-                                                    </button>
-                                                    <button id="closeNotifications" class="text-gray-400 hover:text-white">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div id="notificationsList" class="max-h-64 overflow-y-auto custom-scrollbar">
-                                                <div class="text-gray-400 text-sm py-2 text-center">No notifications</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
+      <!-- Main content -->
+      <div class="relative flex flex-1 flex-col overflow-y-auto bg-deep-black custom-scrollbar hide-scrollbar">
+          <!-- Header -->
+          <header class="sticky top-0 z-30 premium-glass border-b border-purple-500 border-opacity-10">
+              <div class="container mx-auto">
+                  <div class="flex flex-col">
+                      <div class="flex h-16 items-center justify-between px-5">
+                          <button id="toggleSidebar" class="md:hidden premium-btn p-2 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h8m-8 6h16" />
+                              </svg>
+                          </button>
+                          <div id="greeting" class="text-sm font-medium text-gray-100 gradient-text"></div>
+                          <div class="flex items-center">
+                              <!-- Notifications dropdown -->
+                              <div class="dropdown relative">
+                                  <button id="showNotifications" class="premium-btn p-2 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300 relative">
+                                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
+                                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                      </svg>
+                                      <div id="notification-indicator" class="notification-badge hidden"></div>
+                                  </button>
+                                  <div id="notificationsDropdown" class="dropdown-content shadow-premium mt-2">
+                                      <div class="p-4">
+                                          <div class="flex items-center justify-between mb-4">
+                                              <h3 class="text-lg font-semibold gradient-text">Notifications</h3>
+                                              <div class="flex items-center space-x-2">
+                                                  <button id="readAllNotifications" class="text-xs text-gray-400 hover:text-white px-2 py-1 rounded premium-btn">
+                                                      Read All
+                                                  </button>
+                                                  <button id="closeNotifications" class="text-gray-400 hover:text-white premium-btn p-1">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                                      </svg>
+                                                  </button>
+                                              </div>
+                                          </div>
+                                          <div id="notificationsList" class="max-h-64 overflow-y-auto custom-scrollbar">
+                                              <div class="text-gray-400 text-sm py-2 text-center">No notifications</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </header>
 
-            <!-- Main content -->
-            <main id="mainContent" class="flex-1 px-4 py-6 relative z-20"></main>
-        </div>
-    </div>
+          <!-- Main content -->
+          <main id="mainContent" class="flex-1 px-5 py-8 relative z-20"></main>
+      </div>
+  </div>
 
-    <!-- Welcome Popup -->
-    <div id="welcomePopup" class="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-md flex items-center justify-center z-50 hidden">
-        <div class="glass rounded-xl border border-gray-700 p-8 max-w-md w-full mx-4 shadow-lg">
-            <h2 id="welcomeTitle" class="text-2xl font-bold gradient-text mb-6 helvetica-heading">Welcome to API Dashboard Pro!</h2>
-            <p class="text-gray-100 mb-6">Get started by exploring our API categories and endpoints. Use the search function to find specific APIs quickly.</p>
-            <div class="space-y-4">
-                <div class="flex items-start">
-                    <div class="flex-shrink-0 h-6 w-6 flex items-center justify-center rounded-full bg-blue-500 bg-opacity-20 mr-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                    <p class="text-gray-100">Browse API categories on the home page</p>
-                </div>
-                <div class="flex items-start">
-                    <div class="flex-shrink-0 h-6 w-6 flex items-center justify-center rounded-full bg-purple-500 bg-opacity-20 mr-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                    <p class="text-gray-100">Click on APIs to view details, test endpoints, and see results</p>
-                </div>
-                <div class="flex items-start">
-                    <div class="flex-shrink-0 h-6 w-6 flex items-center justify-center rounded-full bg-pink-500 bg-opacity-20 mr-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                    <p class="text-gray-100">Use the search bar to find specific APIs</p>
-                </div>
-                <div class="flex items-start">
-                    <div class="flex-shrink-0 h-6 w-6 flex items-center justify-center rounded-full bg-blue-500 bg-opacity-20 mr-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                    <p class="text-gray-100">View dashboard statistics in the Stats section</p>
-                </div>
-            </div>
-            <button id="closeWelcomePopup" class="mt-8 w-full bg-gray-800 border border-gray-700 hover:border-purple-500 text-white py-3 px-4 rounded-lg transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-purple-500 transform hover:translate-y-[-2px] helvetica-heading">
-                Get Started
-            </button>
-        </div>
-    </div>
+  <script>
+  let apiList = [];
+  let currentView = 'home';
+  let currentApiDetail = null;
+  let currentEndpointUrl = '';
+  let notifications = [];
+  let isMediaResponse = false;
 
-    <script>
-    let apiList = [];
-    let currentView = 'home';
-    let currentApiDetail = null;
-    let currentEndpointUrl = '';
-    let notifications = [];
+  function getCurrentDomain() {
+      return window.location.origin;
+  }
 
-    function getCurrentDomain() {
-        return window.location.origin;
-    }
+  function savePageState() {
+      const state = {
+          currentView,
+          currentApiName: currentApiDetail ? currentApiDetail.name : null,
+          notifications: notifications.map(n => ({ ...n }))
+      };
+      localStorage.setItem('apiDashboardState', JSON.stringify(state));
+  }
 
-    function savePageState() {
-        const state = {
-            currentView,
-            currentApiName: currentApiDetail ? currentApiDetail.name : null,
-            notifications: notifications.map(n => ({ ...n }))
-        };
-        localStorage.setItem('apiDashboardState', JSON.stringify(state));
-    }
+  function loadPageState() {
+      const savedState = localStorage.getItem('apiDashboardState');
+      if (!savedState) return false;
 
-    function loadPageState() {
-        const savedState = localStorage.getItem('apiDashboardState');
-        if (!savedState) return false;
+      try {
+          const state = JSON.parse(savedState);
+          if (state.notifications && Array.isArray(state.notifications)) {
+              notifications = state.notifications;
+              updateNotificationIndicator();
+          }
+          if (state.currentView) {
+              if (state.currentView === 'home') {
+                  renderHomePage();
+              } else if (state.currentView === 'stats') {
+                  renderStatsPage();
+              } else if (state.currentView === 'api-detail' && state.currentApiName) {
+                  const api = apiList.find(a => a.name === state.currentApiName);
+                  if (api) renderApiDetailPage(api);
+                  else renderHomePage();
+              }
+              return true;
+          }
+      } catch (error) {
+          console.error('Error loading saved state:', error);
+      }
+      return false;
+  }
 
-        try {
-            const state = JSON.parse(savedState);
-            if (state.notifications && Array.isArray(state.notifications)) {
-                notifications = state.notifications;
-                updateNotificationIndicator();
-            }
-            if (state.currentView) {
-                if (state.currentView === 'home') {
-                    renderHomePage();
-                } else if (state.currentView === 'stats') {
-                    renderStatsPage();
-                } else if (state.currentView === 'api-detail' && state.currentApiName) {
-                    const api = apiList.find(a => a.name === state.currentApiName);
-                    if (api) renderApiDetailPage(api);
-                    else renderHomePage();
-                }
-                return true;
-            }
-        } catch (error) {
-            console.error('Error loading saved state:', error);
-        }
-        return false;
-    }
+  async function fetchApiList() {
+      try {
+          const response = await fetch('/api/info');
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          const data = await response.json();
+          apiList = data.apis;
+      } catch (error) {
+          console.error('Error fetching API list:', error);
+          showErrorMessage('Failed to fetch API list. Please try again later.');
+      }
+  }
 
-    async function fetchApiList() {
-        try {
-            const response = await fetch('/api/info');
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            const data = await response.json();
-            apiList = data.apis;
-        } catch (error) {
-            console.error('Error fetching API list:', error);
-            showErrorMessage('Failed to fetch API list. Please try again later.');
-        }
-    }
+  function showErrorMessage(message) {
+      document.getElementById('mainContent').innerHTML = `
+          <div class="premium-glass rounded-xl border border-pink-500 border-opacity-20 text-white p-6 shadow-premium">
+              <div class="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <p>${message}</p>
+              </div>
+          </div>
+      `;
+  }
 
-    function showErrorMessage(message) {
-        document.getElementById('mainContent').innerHTML = `
-            <div class="bg-pink-500 bg-opacity-20 border border-pink-500 border-opacity-30 text-white p-6 rounded-lg">
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <p>${message}</p>
-                </div>
-            </div>
-        `;
-    }
+  const cardData = [
+      { icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>', title: 'Total Endpoints', id: 'totalEndpoints' },
+      { icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>', title: 'Total Categories', id: 'totalCategories' },
+      { icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>', title: 'Battery', id: 'batteryLevel' },
+      { icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>', title: 'Current Date', id: 'currentDate' },
+      { icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>', title: 'Current Time', id: 'currentTime' }
+  ];
 
-    const cardData = [
-        { icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>', title: 'Total Endpoints', id: 'totalEndpoints' },
-        { icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>', title: 'Total Categories', id: 'totalCategories' },
-        { icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>', title: 'Battery', id: 'batteryLevel' },
-        { icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>', title: 'Current Date', id: 'currentDate' },
-        { icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>', title: 'Current Time', id: 'currentTime' }
-    ];
+  function generateCardHTML(card, index) {
+      return `
+          <div class="premium-card px-6 py-5 flex flex-col items-center justify-center h-36 shadow-card card-animate" style="animation-delay: ${index * 0.1}s;">
+              <div class="mb-3">${card.icon}</div>
+              <h3 class="text-sm font-medium text-gray-100 mb-2 helvetica-heading">${card.title}</h3>
+              <p id="${card.id}" class="text-2xl font-semibold text-white loading-pulse gradient-text">--</p>
+          </div>
+      `;
+  }
 
-    function generateCardHTML(card, index) {
-        return `
-            <div class="glass rounded-lg border border-gray-800 hover:border-purple-500 hover:border-opacity-50 transition-all duration-300 px-6 py-5 flex flex-col items-center justify-center h-36 shadow-lg card-animate" style="animation-delay: ${index * 0.1}s;">
-                <div class="mb-3">${card.icon}</div>
-                <h3 class="text-sm font-medium text-gray-100 mb-2 helvetica-heading">${card.title}</h3>
-                <p id="${card.id}" class="text-2xl font-semibold text-white loading-pulse gradient-text">--</p>
-            </div>
-        `;
-    }
+  function renderStatsPage() {
+      currentView = 'stats';
+      const mainContent = document.getElementById('mainContent');
+      const cardsHTML = cardData.map((card, index) => generateCardHTML(card, index)).join('');
+      mainContent.innerHTML = `
+          <div class="max-w-7xl mx-auto space-y-8">
+              <div class="mb-6">
+                  <h1 class="text-3xl font-bold gradient-text tracking-tight">Dashboard Statistics</h1>
+                  <div class="h-[1px] w-24 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-2"></div>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">${cardsHTML}</div>
+          </div>
+      `;
+      updateStats();
+      updateSidebarActiveState('statsLink');
+  }
 
-    function renderStatsPage() {
-        currentView = 'stats';
-        const mainContent = document.getElementById('mainContent');
-        const cardsHTML = cardData.map((card, index) => generateCardHTML(card, index)).join('');
-        mainContent.innerHTML = `
-            <div class="max-w-7xl mx-auto space-y-6">
-                <div class="mb-4">
-                    <h1 class="text-3xl font-bold gradient-text tracking-tight">Dashboard Statistics</h1>
-                    <div class="h-[1px] w-24 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-2"></div>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">${cardsHTML}</div>
-            </div>
-        `;
-        updateStats();
-        updateSidebarActiveState('statsLink');
-    }
+  function updateStats() {
+      const totalEndpoints = apiList.length;
+      const categories = new Set(apiList.map(api => api.category));
+      const totalCategories = categories.size;
 
-    function updateStats() {
-        const totalEndpoints = apiList.length;
-        const categories = new Set(apiList.map(api => api.category));
-        const totalCategories = categories.size;
+      document.getElementById('totalEndpoints').textContent = totalEndpoints;
+      document.getElementById('totalCategories').textContent = totalCategories;
+      document.getElementById('totalEndpoints').classList.remove('loading-pulse');
+      document.getElementById('totalCategories').classList.remove('loading-pulse');
 
-        document.getElementById('totalEndpoints').textContent = totalEndpoints;
-        document.getElementById('totalCategories').textContent = totalCategories;
-        document.getElementById('totalEndpoints').classList.remove('loading-pulse');
-        document.getElementById('totalCategories').classList.remove('loading-pulse');
+      updateBatteryLevel();
+      updateDateTime();
+  }
 
-        updateBatteryLevel();
-        updateDateTime();
-    }
+  function renderApiList(apis) {
+      const categories = {};
+      apis.forEach(api => {
+          if (!categories[api.category]) categories[api.category] = [];
+          categories[api.category].push(api);
+      });
 
-    function renderApiList(apis) {
-        const categories = {};
-        apis.forEach(api => {
-            if (!categories[api.category]) categories[api.category] = [];
-            categories[api.category].push(api);
-        });
+      // Get only the first two categories
+      const categoryEntries = Object.entries(categories);
+      const limitedCategories = categoryEntries.slice(0, 2);
+      
+      let html = limitedCategories.map(([category, apis]) => `
+          <div class="mb-12">
+              <div class="mb-5">
+                  <h2 class="text-xl font-bold gradient-text capitalize">${category}</h2>
+                  <div class="h-[1px] w-16 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-1 opacity-70"></div>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  ${apis.map(api => `
+                      <div class="premium-card p-6 shadow-card" data-api-name="${api.name}">
+                          <div class="flex items-center gap-2 mb-3">
+                              <h3 class="text-lg font-semibold capitalize">${api.name}</h3>
+                              <span class="method-badge get">GET</span>
+                          </div>
+                          <p class="text-gray-300 text-sm mb-4 line-clamp-2">${api.description}</p>
+                          <div class="flex justify-end items-center">
+                              <button class="view-api-btn text-sm text-purple-400 hover:text-purple-300 flex items-center group cursor-pointer" data-api-name="${api.name}">
+                                  View Details
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 20 20" fill="currentColor">
+                                      <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                  </svg>
+                              </button>
+                          </div>
+                      </div>
+                  `).join('')}
+              </div>
+          </div>
+      `).join('');
 
-        return Object.entries(categories).map(([category, apis]) => `
-            <div class="mb-10">
-                <div class="mb-4">
-                    <h2 class="text-xl font-bold gradient-text capitalize">${category}</h2>
-                    <div class="h-[1px] w-16 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-1 opacity-70"></div>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    ${apis.map(api => `
-                        <div class="glass rounded-lg p-6 shadow-lg api-card border border-gray-800 hover:border-purple-500 hover:border-opacity-50 transition-all duration-300 cursor-pointer" data-api-name="${api.name}">
-                            <div class="flex items-center gap-2 mb-3">
-                                <h3 class="text-lg font-semibold capitalize">${api.name}</h3>
-                                <span class="bg-gray-800 text-blue-400 text-xs px-2 py-1 rounded-md border border-blue-500 border-opacity-30">GET</span>
-                            </div>
-                            <p class="text-gray-300 text-sm mb-4 line-clamp-2">${api.description}</p>
-                            <div class="flex justify-end items-center">
-                                <button class="view-api-btn text-sm text-purple-400 hover:text-purple-300 flex items-center group cursor-pointer" data-api-name="${api.name}">
-                                    View Details
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
-        `).join('');
-    }
+      // Add "View More" button if there are more than 2 categories
+      if (categoryEntries.length > 2) {
+          html += `
+              <div class="mt-8 mb-12 text-center">
+                  <button id="viewMoreCategories" class="view-more-btn">
+                      View More Categories
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                  </button>
+              </div>
+          `;
+      }
 
-    function renderHomePage() {
-        currentView = 'home';
-        const mainContent = document.getElementById('mainContent');
-        mainContent.innerHTML = `
-            <div class="max-w-7xl mx-auto">
-                <div class="mb-8">
-                    <h1 class="text-3xl font-bold gradient-text tracking-tight">API Categories</h1>
-                    <div class="h-[1px] w-24 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-2"></div>
-                </div>
-                <div class="mb-6">
-                    <div class="relative">
-                        <input
-                            type="search"
-                            id="apiSearch"
-                            placeholder="Search APIs..."
-                            class="w-full px-4 py-3 text-sm text-gray-100 bg-gray-800 bg-opacity-30 border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500 pl-10 transition-all duration-300"
-                        />
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute left-3 top-3" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </div>
-                </div>
-                ${renderApiList(apiList)}
-            </div>
-        `;
-        updateSidebarActiveState('homeLink');
-    }
+      return html;
+  }
 
-    function renderFilteredHomePage(filteredApis, searchTerm) {
-        const mainContent = document.getElementById('mainContent');
-        if (filteredApis.length === 0) {
-            mainContent.innerHTML = `
-                <div class="max-w-7xl mx-auto">
-                    <div class="mb-8">
-                        <h1 class="text-3xl font-bold gradient-text tracking-tight">Search Results</h1>
-                    </div>
-                    <div class="mb-6">
-                        <div class="relative">
-                            <input
-                                type="search"
-                                id="apiSearch"
-                                placeholder="Search APIs..."
-                                value="${searchTerm}"
-                                class="w-full px-4 py-3 text-sm text-gray-100 bg-gray-800 bg-opacity-30 border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500 pl-10 transition-all duration-300"
-                            />
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute left-3 top-3" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="glass rounded-lg p-8 text-center border border-purple-500 border-opacity-20">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                        <p class="text-gray-300 text-lg">No APIs found matching "${searchTerm}"</p>
-                    </div>
-                </div>
-            `;
-            return;
-        }
-        mainContent.innerHTML = `
-            <div class="max-w-7xl mx-auto">
-                <div class="mb-8">
-                    <h1 class="text-3xl font-bold gradient-text tracking-tight">Search Results</h1>
-                </div>
-                <div class="mb-6">
-                    <div class="relative">
-                        <input
-                            type="search"
-                            id="apiSearch"
-                            placeholder="Search APIs..."
-                            value="${searchTerm}"
-                            class="w-full px-4 py-3 text-sm text-gray-100 bg-gray-800 bg-opacity-30 border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500 pl-10 transition-all duration-300"
-                        />
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute left-3 top-3" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </div>
-                </div>
-                ${renderApiList(filteredApis)}
-            </div>
-        `;
-        updateSidebarActiveState('homeLink');
-    }
+  function renderAllApiList(apis) {
+      const categories = {};
+      apis.forEach(api => {
+          if (!categories[api.category]) categories[api.category] = [];
+          categories[api.category].push(api);
+      });
 
-    function renderApiDetailPage(api) {
-        currentView = 'api-detail';
-        currentApiDetail = api;
-        const mainContent = document.getElementById('mainContent');
-        currentEndpointUrl = `${getCurrentDomain()}${api.endpoint}`;
-        const params = api.endpoint.includes('?') ? 
-            api.endpoint.split('?')[1].split('&').map(p => {
-                const [key, value] = p.split('=');
-                return { key, value: value.replace(/[{}]/g, '') };
-            }) : [];
+      return Object.entries(categories).map(([category, apis]) => `
+          <div class="mb-12">
+              <div class="mb-5">
+                  <h2 class="text-xl font-bold gradient-text capitalize">${category}</h2>
+                  <div class="h-[1px] w-16 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-1 opacity-70"></div>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  ${apis.map(api => `
+                      <div class="premium-card p-6 shadow-card" data-api-name="${api.name}">
+                          <div class="flex items-center gap-2 mb-3">
+                              <h3 class="text-lg font-semibold capitalize">${api.name}</h3>
+                              <span class="method-badge get">GET</span>
+                          </div>
+                          <p class="text-gray-300 text-sm mb-4 line-clamp-2">${api.description}</p>
+                          <div class="flex justify-end items-center">
+                              <button class="view-api-btn text-sm text-purple-400 hover:text-purple-300 flex items-center group cursor-pointer" data-api-name="${api.name}">
+                                  View Details
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 20 20" fill="currentColor">
+                                      <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                  </svg>
+                              </button>
+                          </div>
+                      </div>
+                  `).join('')}
+              </div>
+          </div>
+      `).join('');
+  }
 
-        const paramsFormHTML = params.length > 0 ? `
-            <div class="glass rounded-lg p-6 mb-6 border border-gray-800 hover:border-purple-500 hover:border-opacity-50 transition-all duration-300">
-                <div class="mb-4">
-                    <h3 class="text-lg font-semibold gradient-text">Parameters</h3>
-                    <div class="h-[1px] w-16 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-1 opacity-70"></div>
-                </div>
-                <form id="apiParamsForm" class="space-y-4">
-                    ${params.map(param => `
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-                            <label class="text-sm font-medium text-gray-300 capitalize">${param.key}:</label>
-                            <input type="text" name="${param.key}" placeholder="${param.value}" class="col-span-2 px-4 py-2 bg-gray-800 bg-opacity-50 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200">
-                        </div>
-                    `).join('')}
-                    <div class="flex justify-start mt-6">
-                        <button type="submit" id="testApiBtn" class="api-btn inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-gray-800 border border-gray-700 hover:border-purple-500 rounded-md transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-purple-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 01-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                            <span>Test API</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        ` : `
-            <div class="glass rounded-lg p-6 mb-6 border border-gray-800 hover:border-purple-500 hover:border-opacity-50 transition-all duration-300">
-                <div class="mb-4">
-                    <h3 class="text-lg font-semibold gradient-text">No Parameters Required</h3>
-                    <div class="h-[1px] w-16 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-1 opacity-70"></div>
-                </div>
-                <div class="flex justify-start mt-2">
-                    <button id="testApiBtn" class="api-btn inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-gray-800 border border-gray-700 hover:border-purple-500 rounded-md transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-purple-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 01-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
-                        <span>Test API</span>
-                    </button>
-                </div>
-            </div>
-        `;
+  const debouncedSearch = debounce((searchTerm) => {
+  const searchInput = document.getElementById('apiSearch');
+  const currentFocus = document.activeElement === searchInput;
+  
+  if (searchTerm === '') {
+    renderHomePage('');
+  } else {
+    const filteredApis = apiList.filter(api =>
+      api.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      api.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      api.category.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    renderFilteredHomePage(filteredApis, searchTerm);
+  }
+  
+  // Restore focus to search input if it was focused before
+  if (currentFocus) {
+    setTimeout(() => {
+      const newSearchInput = document.getElementById('apiSearch');
+      if (newSearchInput) {
+        newSearchInput.focus();
+        // Place cursor at the end of the text
+        const len = newSearchInput.value.length;
+        newSearchInput.setSelectionRange(len, len);
+      }
+    }, 0);
+  }
+}, 300);
 
-        mainContent.innerHTML = `
-            <div class="max-w-4xl mx-auto">
-                <div class="mb-8">
-                    <div class="flex items-center mb-3">
-                        <button id="backToHome" class="mr-4 bg-gray-800 p-2 rounded-md border border-gray-700 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all duration-300 hover:border-purple-500 api-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                            </svg>
-                        </button>
-                        <div class="flex items-center">
-                            <h1 class="text-3xl font-bold gradient-text capitalize tracking-tight">${api.name}</h1>
-                            <span class="method-badge get ml-3">GET</span>
-                        </div>
-                    </div>
-                    <div class="h-[1px] w-24 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 ml-12"></div>
-                </div>
-                <div class="glass rounded-lg p-6 mb-6 border border-gray-800 hover:border-purple-500 hover:border-opacity-50 transition-all duration-300">
-                    <div class="mb-4">
-                        <h2 class="text-lg font-semibold gradient-text">Description</h2>
-                        <div class="h-[1px] w-16 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-1 opacity-70"></div>
-                    </div>
-                    <p class="text-gray-300 mb-6">${api.description}</p>
+  function renderHomePage(searchTerm = '') {
+      currentView = 'home';
+      const mainContent = document.getElementById('mainContent');
+      mainContent.innerHTML = `
+          <div class="max-w-7xl mx-auto">
+              <div class="mb-8">
+                  <h1 class="text-3xl font-bold gradient-text tracking-tight">API Categories</h1>
+                  <div class="h-[1px] w-24 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-2"></div>
+              </div>
+              <div class="mb-8">
+                  <div class="relative">
+                      <input
+                          type="search"
+                          id="apiSearch"
+                          placeholder="Search APIs..."
+                          value="${searchTerm}"
+                          class="w-full premium-input pl-10"
+                      />
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute left-3 top-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                  </div>
+              </div>
+              <div id="apiListContainer">
+                  ${renderApiList(apiList)}
+              </div>
+          </div>
+      `;
+      
+      // Add event listener for "View More Categories" button
+      const viewMoreBtn = document.getElementById('viewMoreCategories');
+      if (viewMoreBtn) {
+          viewMoreBtn.addEventListener('click', () => {
+              document.getElementById('apiListContainer').innerHTML = renderAllApiList(apiList);
+          });
+      }
+      
+      updateSidebarActiveState('homeLink');
+      setupSearchListener();
+  }
 
-                    <div class="endpoint-header flex items-center justify-between mb-2">
-                        <h2 class="text-2xl font-bold text-purple-500">Endpoint</h2>
-                        <button id="copyEndpoint" class="endpoint-copy-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="endpoint-display">
-                        <div class="endpoint-url" id="endpointDisplay">${currentEndpointUrl}</div>
-                    </div>
+  function renderFilteredHomePage(filteredApis, searchTerm) {
+      const mainContent = document.getElementById('mainContent');
+      if (filteredApis.length === 0) {
+          mainContent.innerHTML = `
+              <div class="max-w-7xl mx-auto">
+                  <div class="mb-8">
+                      <h1 class="text-3xl font-bold gradient-text tracking-tight">Search Results</h1>
+                  </div>
+                  <div class="mb-8">
+                      <div class="relative">
+                          <input
+                              type="search"
+                              id="apiSearch"
+                              placeholder="Search APIs..."
+                              value="${searchTerm}"
+                              class="w-full premium-input pl-10"
+                          />
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute left-3 top-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>
+                      </div>
+                  </div>
+                  <div class="premium-glass rounded-xl p-8 text-center border border-purple-500 border-opacity-10 shadow-premium">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                      <p class="text-gray-300 text-lg">No APIs found matching "${searchTerm}"</p>
+                  </div>
+              </div>
+          `;
+          setupSearchListener();
+          return;
+      }
+      mainContent.innerHTML = `
+          <div class="max-w-7xl mx-auto">
+              <div class="mb-8">
+                  <h1 class="text-3xl font-bold gradient-text tracking-tight">Search Results</h1>
+              </div>
+              <div class="mb-8">
+                  <div class="relative">
+                      <input
+                          type="search"
+                          id="apiSearch"
+                          placeholder="Search APIs..."
+                          value="${searchTerm}"
+                          class="w-full premium-input pl-10"
+                      />
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute left-3 top-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                  </div>
+              </div>
+              <div id="apiListContainer">
+                  ${renderApiList(filteredApis)}
+              </div>
+          </div>
+      `;
+      
+      // Add event listener for "View More Categories" button
+      const viewMoreBtn = document.getElementById('viewMoreCategories');
+      if (viewMoreBtn) {
+          viewMoreBtn.addEventListener('click', () => {
+              document.getElementById('apiListContainer').innerHTML = renderAllApiList(filteredApis);
+          });
+      }
+      
+      updateSidebarActiveState('homeLink');
+      setupSearchListener();
+  }
 
-                    <div class="flex justify-start mt-4">
-                        <a href="${currentEndpointUrl}" target="_blank" rel="noopener noreferrer" id="openInNewTab" class="api-btn inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-gray-800 border border-gray-700 hover:border-purple-500 rounded-md transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-purple-500">
-                            <span>Open in New Tab</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                ${paramsFormHTML}
-                <div id="apiResponseContainer" class="mb-6 hidden">
-                    <div class="flex justify-between items-center mb-4">
-                        <div>
-                            <h3 class="text-lg font-semibold gradient-text">Response</h3>
-                            <div class="h-[1px] w-16 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-1 opacity-70"></div>
-                        </div>
-                        <button id="copyResponse" class="api-btn bg-gray-800 p-2 rounded-md border border-gray-700 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all duration-300 hover:border-purple-500 flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                            </svg>
-                            <span class="text-sm font-medium">Copy</span>
-                        </button>
-                    </div>
-                    <div class="bg-gray-800 bg-opacity-50 rounded-md p-5">
-                        <pre id="apiResponseText" class="text-gray-300 whitespace-pre-wrap break-all text-sm custom-scrollbar max-h-96 overflow-y-auto"></pre>
-                    </div>
-                    <div id="apiMediaResponse" class="mt-5"></div>
-                </div>
-            </div>
-        `;
+  function renderApiDetailPage(api) {
+      currentView = 'api-detail';
+      currentApiDetail = api;
+      const mainContent = document.getElementById('mainContent');
+      currentEndpointUrl = `${getCurrentDomain()}${api.endpoint}`;
+      const params = api.endpoint.includes('?') ? 
+          api.endpoint.split('?')[1].split('&').map(p => {
+              const [key, value] = p.split('=');
+              return { key, value: value.replace(/[{}]/g, '') };
+          }) : [];
 
-        document.getElementById('backToHome').addEventListener('click', () => {
-            renderHomePage();
-            savePageState();
-        });
+      const paramsFormHTML = params.length > 0 ? `
+          <div class="premium-card p-6 mb-8 shadow-card">
+              <div class="mb-5">
+                  <h3 class="text-lg font-semibold gradient-text">Parameters</h3>
+                  <div class="h-[1px] w-16 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-1 opacity-70"></div>
+              </div>
+              <form id="apiParamsForm" class="space-y-5">
+                  ${params.map(param => `
+                      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                          <label class="text-sm font-medium text-gray-300 capitalize">${param.key}:</label>
+                          <input type="text" name="${param.key}" placeholder="${param.value}" class="col-span-2 premium-input">
+                      </div>
+                  `).join('')}
+                  <div class="flex justify-start mt-6">
+                      <button type="submit" id="testApiBtn" class="premium-btn inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 test-api-icon" viewBox="0 0 20 20" fill="currentColor">
+                              <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 01-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                          </svg>
+                          <span>Test API</span>
+                      </button>
+                  </div>
+              </form>
+          </div>
+      ` : `
+          <div class="premium-card p-6 mb-8 shadow-card">
+              <div class="mb-5">
+                  <h3 class="text-lg font-semibold gradient-text">No Parameters Required</h3>
+                  <div class="h-[1px] w-16 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-1 opacity-70"></div>
+              </div>
+              <div class="flex justify-start mt-4">
+                  <button id="testApiBtn" class="premium-btn inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 test-api-icon" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 01-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                      </svg>
+                      <span>Test API</span>
+                  </button>
+              </div>
+          </div>
+      `;
 
-        if (params.length > 0) {
-            const form = document.getElementById('apiParamsForm');
-            form.querySelectorAll('input').forEach(input => input.addEventListener('input', updateEndpointDisplay));
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                testApi();
-            });
-        } else {
-            document.getElementById('testApiBtn').addEventListener('click', testApi);
-        }
+      mainContent.innerHTML = `
+          <div class="max-w-4xl mx-auto">
+              <div class="mb-8">
+                  <div class="flex items-center mb-3">
+                      <button id="backToHome" class="mr-4 premium-btn p-2">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                          </svg>
+                      </button>
+                      <div class="flex items-center">
+                          <h1 class="text-3xl font-bold gradient-text capitalize tracking-tight">${api.name}</h1>
+                          <span class="method-badge get ml-3">GET</span>
+                      </div>
+                  </div>
+                  <div class="h-[1px] w-24 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 ml-12"></div>
+              </div>
+              <div class="premium-card p-6 mb-8 shadow-card">
+                  <div class="mb-5">
+                      <h2 class="text-lg font-semibold gradient-text">Description</h2>
+                      <div class="h-[1px] w-16 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-1 opacity-70"></div>
+                  </div>
+                  <p class="text-gray-300 mb-6">${api.description}</p>
 
-        document.getElementById('copyEndpoint').addEventListener('click', () => {
-            navigator.clipboard.writeText(currentEndpointUrl).then(() => {
-                const copyBtn = document.getElementById('copyEndpoint');
-                const originalContent = copyBtn.innerHTML;
-                copyBtn.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
-                `;
-                setTimeout(() => copyBtn.innerHTML = originalContent, 2000);
-            });
-        });
+                  <div class="endpoint-header flex items-center justify-between mb-2">
+                      <h2 class="text-xl font-bold text-purple-500">Endpoint</h2>
+                      <button id="copyEndpoint" class="endpoint-copy-btn">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                          </svg>
+                      </button>
+                  </div>
+                  <div class="endpoint-display">
+                      <div class="endpoint-url" id="endpointDisplay">${currentEndpointUrl}</div>
+                  </div>
 
-        document.getElementById('copyResponse').addEventListener('click', () => {
-            const responseText = document.getElementById('apiResponseText');
-            const textToCopy = responseText.textContent || responseText.innerText;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const copyBtn = document.getElementById('copyResponse');
-                const originalContent = copyBtn.innerHTML;
-                copyBtn.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
-                    <span class="text-sm font-medium text-green-500">Copied!</span>
-                `;
-                setTimeout(() => copyBtn.innerHTML = originalContent, 2000);
-            });
-        });
-    }
+                  <div class="flex justify-start mt-4">
+                      <a href="${currentEndpointUrl}" target="_blank" rel="noopener noreferrer" id="openInNewTab" class="premium-btn inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white">
+                          <span>Open in New Tab</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                      </a>
+                  </div>
+              </div>
+              ${paramsFormHTML}
+              <div id="apiResponseContainer" class="mb-6 hidden">
+                  <div class="flex justify-between items-center mb-4">
+                      <div>
+                          <h3 class="text-lg font-semibold gradient-text">Response</h3>
+                          <div class="h-[1px] w-16 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mt-1 opacity-70"></div>
+                      </div>
+                      <button id="responseActionBtn" class="premium-btn p-2 flex items-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                          </svg>
+                          <span class="text-sm font-medium">Copy</span>
+                      </button>
+                  </div>
+                  <div class="premium-response p-5">
+                      <pre id="apiResponseText" class="text-gray-300 whitespace-pre-wrap break-all text-sm custom-scrollbar max-h-96 overflow-y-auto"></pre>
+                  </div>
+                  <div id="apiMediaResponse" class="mt-5"></div>
+              </div>
+          </div>
+      `;
 
-    function updateEndpointDisplay() {
-        if (!document.getElementById('apiParamsForm')) return;
-        const form = document.getElementById('apiParamsForm');
-        const formData = new FormData(form);
-        let url = currentApiDetail.endpoint;
-        for (const [key, value] of formData.entries()) {
-            if (value) {
-                const regex = new RegExp(`${key}=\\{[^}]*\\}`, 'g');
-                url = url.replace(regex, `${key}=${value}`);
-            }
-        }
-        currentEndpointUrl = `${getCurrentDomain()}${url}`;
-        document.getElementById('endpointDisplay').textContent = currentEndpointUrl;
-        document.getElementById('openInNewTab').href = currentEndpointUrl;
-    }
+      document.getElementById('backToHome').addEventListener('click', () => {
+          renderHomePage();
+          savePageState();
+      });
 
-    async function testApi() {
-        showLoadingBar();
-        const responseContainer = document.getElementById('apiResponseContainer');
-        const responseText = document.getElementById('apiResponseText');
-        const mediaResponse = document.getElementById('apiMediaResponse');
-        const testButton = document.getElementById('testApiBtn');
+      if (params.length > 0) {
+          const form = document.getElementById('apiParamsForm');
+          form.querySelectorAll('input').forEach(input => input.addEventListener('input', updateEndpointDisplay));
+          form.addEventListener('submit', (e) => {
+              e.preventDefault();
+              testApi();
+          });
+      } else {
+          document.getElementById('testApiBtn').addEventListener('click', testApi);
+      }
 
-        const originalButtonContent = testButton.innerHTML;
-        testButton.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 loading-spinner" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
-            Testing...
-        `;
-        testButton.disabled = true;
+      document.getElementById('copyEndpoint').addEventListener('click', () => {
+          navigator.clipboard.writeText(currentEndpointUrl).then(() => {
+              const copyBtn = document.getElementById('copyEndpoint');
+              const originalContent = copyBtn.innerHTML;
+              copyBtn.innerHTML = `
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+              `;
+              setTimeout(() => copyBtn.innerHTML = originalContent, 2000);
+          });
+      });
 
-        responseContainer.classList.remove('hidden');
-        responseText.textContent = 'Loading...';
-        mediaResponse.innerHTML = '';
+      document.getElementById('responseActionBtn').addEventListener('click', () => {
+          if (isMediaResponse) {
+              // Download functionality for media responses
+              const mediaType = document.querySelector('#apiMediaResponse img, #apiMediaResponse audio, #apiMediaResponse video');
+              if (mediaType) {
+                  const url = mediaType.src;
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = `api-response-${Date.now()}.${getFileExtension(url)}`;
+                  document.body.appendChild(a);
+                  a.click();
+                  document.body.removeChild(a);
+                  
+                  const downloadBtn = document.getElementById('responseActionBtn');
+                  const originalContent = downloadBtn.innerHTML;
+                  downloadBtn.innerHTML = `
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                      <span class="text-sm font-medium text-green-500">Downloaded!</span>
+                  `;
+                  setTimeout(() => downloadBtn.innerHTML = originalContent, 2000);
+              }
+          } else {
+              // Copy functionality for text/JSON responses
+              const responseText = document.getElementById('apiResponseText');
+              const textToCopy = responseText.textContent || responseText.innerText;
+              navigator.clipboard.writeText(textToCopy).then(() => {
+                  const copyBtn = document.getElementById('responseActionBtn');
+                  const originalContent = copyBtn.innerHTML;
+                  copyBtn.innerHTML = `
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                      <span class="text-sm font-medium text-green-500">Copied!</span>
+                  `;
+                  setTimeout(() => copyBtn.innerHTML = originalContent, 2000);
+              });
+          }
+      });
+  }
 
-        try {
-            const response = await fetch(currentEndpointUrl);
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            const contentType = response.headers.get('content-type');
+  function getFileExtension(url) {
+      // Extract file extension from content type or URL
+      const contentType = url.split(';')[0];
+      if (contentType.includes('image/')) {
+          return contentType.split('/')[1] || 'png';
+      } else if (contentType.includes('audio/')) {
+          return contentType.split('/')[1] || 'mp3';
+      } else if (contentType.includes('video/')) {
+          return contentType.split('/')[1] || 'mp4';
+      }
+      return 'bin'; // Default binary extension
+  }
 
-            if (contentType && contentType.includes('application/json')) {
-                const jsonResponse = await response.json();
-                responseText.innerHTML = formatJsonWithSyntax(JSON.stringify(jsonResponse, null, 2));
-            } else if (contentType && contentType.includes('image')) {
-                const blob = await response.blob();
-                const imageUrl = URL.createObjectURL(blob);
-                responseText.textContent = 'Image response received:';
-                mediaResponse.innerHTML = `<img src="${imageUrl}" alt="API Response" class="max-w-full rounded-md mt-4 border border-gray-700" />`;
-            } else if (contentType && contentType.includes('audio')) {
-                const blob = await response.blob();
-                const audioUrl = URL.createObjectURL(blob);
-                responseText.textContent = 'Audio response received:';
-                mediaResponse.innerHTML = `<audio controls class="w-full mt-4 rounded-md"><source src="${audioUrl}" type="${contentType}">Your browser does not support the audio element.</audio>`;
-            } else if (contentType && contentType.includes('video')) {
-                const blob = await response.blob();
-                const videoUrl = URL.createObjectURL(blob);
-                responseText.textContent = 'Video response received:';
-                mediaResponse.innerHTML = `<video controls class="w-full mt-4 rounded-md border border-gray-700"><source src="${videoUrl}" type="${contentType}">Your browser does not support the video element.</video>`;
-            } else {
-                responseText.textContent = await response.text();
-            }
-        } catch (error) {
-            responseText.textContent = `Error: ${error.message}`;
-        } finally {
-            testButton.innerHTML = originalButtonContent;
-            testButton.disabled = false;
-            hideLoadingBar();
-        }
-    }
+  function updateEndpointDisplay() {
+      if (!document.getElementById('apiParamsForm')) return;
+      const form = document.getElementById('apiParamsForm');
+      const formData = new FormData(form);
+      let url = currentApiDetail.endpoint;
+      for (const [key, value] of formData.entries()) {
+          if (value) {
+              const regex = new RegExp(`${key}=\\{[^}]*\\}`, 'g');
+              url = url.replace(regex, `${key}=${value}`);
+          }
+      }
+      currentEndpointUrl = `${getCurrentDomain()}${url}`;
+      document.getElementById('endpointDisplay').textContent = currentEndpointUrl;
+      document.getElementById('openInNewTab').href = currentEndpointUrl;
+  }
 
-    function formatJsonWithSyntax(json) {
-        if (!json) return '';
-        return json
-            .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, match => {
-                let cls = 'json-number';
-                if (/^"/.test(match)) cls = /:$/.test(match) ? 'json-key' : 'json-string';
-                else if (/true|false/.test(match)) cls = 'json-boolean';
-                else if (/null/.test(match)) cls = 'json-null';
-                return /:$/.test(match) ? `<span class="${cls}">${match.slice(0, -1)}</span><span class="json-punctuation">:</span>` : `<span class="${cls}">${match}</span>`;
-            })
-            .replace(/[{}[\],]/g, match => `<span class="json-punctuation">${match}</span>`);
-    }
+  async function testApi() {
+      const responseContainer = document.getElementById('apiResponseContainer');
+      const responseText = document.getElementById('apiResponseText');
+      const mediaResponse = document.getElementById('apiMediaResponse');
+      const testButton = document.getElementById('testApiBtn');
+      const responseActionBtn = document.getElementById('responseActionBtn');
 
-    const showNotificationsBtn = document.getElementById('showNotifications');
-    const notificationsDropdown = document.getElementById('notificationsDropdown');
-    const closeNotificationsBtn = document.getElementById('closeNotifications');
+      const originalButtonContent = testButton.innerHTML;
+      testButton.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 test-api-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          Testing...
+      `;
+      testButton.disabled = true;
 
-    showNotificationsBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        notificationsDropdown.classList.toggle('show');
-        renderNotifications();
+      responseContainer.classList.remove('hidden');
+      responseText.textContent = 'Loading...';
+      mediaResponse.innerHTML = '';
+      isMediaResponse = false;
+
+      try {
+          const response = await fetch(currentEndpointUrl);
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          const contentType = response.headers.get('content-type');
+
+          responseContainer.classList.add('fade-in-up');
+
+          if (contentType && contentType.includes('application/json')) {
+              const jsonResponse = await response.json();
+              responseText.innerHTML = formatJsonWithSyntax(JSON.stringify(jsonResponse, null, 2));
+              
+              // Set to Copy button for JSON response
+              responseActionBtn.innerHTML = `
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                  </svg>
+                  <span class="text-sm font-medium">Copy</span>
+              `;
+              isMediaResponse = false;
+          } else if (contentType && (contentType.includes('image') || contentType.includes('audio') || contentType.includes('video'))) {
+              const blob = await response.blob();
+              const mediaUrl = URL.createObjectURL(blob);
+              
+              if (contentType.includes('image')) {
+                  responseText.textContent = 'Image response received:';
+                  mediaResponse.innerHTML = `<img src="${mediaUrl}" alt="API Response" class="max-w-full rounded-md mt-4 border border-gray-700 fade-in-up" />`;
+              } else if (contentType.includes('audio')) {
+                  responseText.textContent = 'Audio response received:';
+                  mediaResponse.innerHTML = `<audio controls class="w-full mt-4 rounded-md fade-in-up"><source src="${mediaUrl}" type="${contentType}">Your browser does not support the audio element.</audio>`;
+              } else if (contentType.includes('video')) {
+                  responseText.textContent = 'Video response received:';
+                  mediaResponse.innerHTML = `<video controls class="w-full mt-4 rounded-md border border-gray-700 fade-in-up"><source src="${mediaUrl}" type="${contentType}">Your browser does not support the video element.</video>`;
+              }
+              
+              // Set to Download button for media response
+              responseActionBtn.innerHTML = `
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  <span class="text-sm font-medium">Download</span>
+              `;
+              isMediaResponse = true;
+          } else {
+              responseText.textContent = await response.text();
+              
+              // Set to Copy button for text response
+              responseActionBtn.innerHTML = `
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                  </svg>
+                  <span class="text-sm font-medium">Copy</span>
+              `;
+              isMediaResponse = false;
+          }
+      } catch (error) {
+          responseText.textContent = `Error: ${error.message}`;
+          
+          // Set to Copy button for error response
+          responseActionBtn.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="url(#gradient-stroke)">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+              </svg>
+              <span class="text-sm font-medium">Copy</span>
+          `;
+          isMediaResponse = false;
+      } finally {
+          testButton.innerHTML = originalButtonContent;
+          testButton.disabled = false;
+      }
+  }
+
+  function formatJsonWithSyntax(json) {
+      if (!json) return '';
+      return json
+          .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, match => {
+              let cls = 'json-number';
+              if (/^"/.test(match)) cls = /:$/.test(match) ? 'json-key' : 'json-string';
+              else if (/true|false/.test(match)) cls = 'json-boolean';
+              else if (/null/.test(match)) cls = 'json-null';
+              return /:$/.test(match) ? `<span class="${cls}">${match.slice(0, -1)}</span><span class="json-punctuation">:</span>` : `<span class="${cls}">${match}</span>`;
+          })
+          .replace(/[{}[\],]/g, match => `<span class="json-punctuation">${match}</span>`);
+  }
+
+  const showNotificationsBtn = document.getElementById('showNotifications');
+  const notificationsDropdown = document.getElementById('notificationsDropdown');
+  const closeNotificationsBtn = document.getElementById('closeNotifications');
+
+  showNotificationsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      notificationsDropdown.classList.toggle('show');
+      renderNotifications();
+  });
+
+  closeNotificationsBtn.addEventListener('click', () => notificationsDropdown.classList.remove('show'));
+
+  document.getElementById('readAllNotifications').addEventListener('click', () => {
+      notifications.forEach(n => n.read = true);
+      renderNotifications();
+      updateNotificationIndicator();
+      savePageState();
+  });
+
+  function updateNotificationIndicator() {
+      const unreadCount = notifications.filter(n => !n.read).length;
+      const indicator = document.getElementById('notification-indicator');
+      
+      if (unreadCount > 0) {
+          indicator.textContent = unreadCount > 9 ? '9+' : unreadCount;
+          indicator.classList.remove('hidden');
+      } else {
+          indicator.classList.add('hidden');
+      }
+  }
+
+  document.addEventListener('click', (e) => {
+      if (!notificationsDropdown.contains(e.target) && !showNotificationsBtn.contains(e.target))
+          notificationsDropdown.classList.remove('show');
+  });
+
+  function renderNotifications() {
+      const notificationsList = document.getElementById('notificationsList');
+      if (notifications.length === 0) {
+          notificationsList.innerHTML = `<div class="text-gray-400 text-sm py-2 text-center">No notifications</div>`;
+          return;
+      }
+      notificationsList.innerHTML = notifications.map((n, i) => `
+          <div class="py-3 ${i !== 0 ? 'border-t border-gray-700' : ''} ${n.read ? 'opacity-60' : ''}" data-notification-id="${i}">
+              <div class="flex justify-between items-start mb-1">
+                  <h4 class="text-sm font-semibold gradient-text">${n.title} ${!n.read ? '<span class="inline-block w-2 h-2 bg-blue-500 rounded-full ml-1"></span>' : ''}</h4>
+                  <button class="mark-read-btn text-xs text-gray-400 hover:text-white px-1.5 py-0.5 rounded hover:bg-gray-700 transition-colors duration-200" data-notification-id="${i}">
+                      ${n.read ? 'Mark unread' : 'Mark read'}
+                  </button>
+              </div>
+              <p class="text-gray-300 text-xs">${n.description}</p>
+          </div>
+      `).join('');
+      document.querySelectorAll('.mark-read-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const id = parseInt(e.currentTarget.dataset.notificationId);
+              notifications[id].read = !notifications[id].read;
+              renderNotifications();
+              updateNotificationIndicator();
+              savePageState();
+          });
+      });
+  }
+
+  const sidebar = document.getElementById('sidebar');
+  const toggleSidebarBtn = document.getElementById('toggleSidebar');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  const homeLink = document.getElementById('homeLink');
+  const statsLink = document.getElementById('statsLink');
+
+  function toggleSidebar() {
+      sidebar.classList.toggle('-translate-x-full');
+      sidebarOverlay.classList.toggle('hidden');
+      document.body.classList.toggle('sidebar-open');
+  }
+
+  toggleSidebarBtn.addEventListener('click', toggleSidebar);
+  sidebarOverlay.addEventListener('click', toggleSidebar);
+
+  homeLink.addEventListener('click', () => {
+      renderHomePage();
+      closeSidebarOnMobile();
+      savePageState();
+  });
+
+  statsLink.addEventListener('click', () => {
+      renderStatsPage();
+      closeSidebarOnMobile();
+      savePageState();
+  });
+
+  function closeSidebarOnMobile() {
+      if (window.innerWidth < 768) toggleSidebar();
+  }
+
+  function updateSidebarActiveState(activeItemId) {
+      document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+      document.getElementById(activeItemId).classList.add('active');
+  }
+
+  function updateBatteryLevel() {
+      const batteryEl = document.getElementById('batteryLevel');
+      if (batteryEl && 'getBattery' in navigator) {
+          navigator.getBattery().then(battery => {
+              batteryEl.textContent = `${Math.round(battery.level * 100)}%`;
+              batteryEl.classList.remove('loading-pulse');
+          });
+      } else if (batteryEl) {
+          batteryEl.textContent = 'Not available';
+          batteryEl.classList.remove('loading-pulse');
+      }
+  }
+
+  function updateDateTime() {
+      const dateEl = document.getElementById('currentDate');
+      const timeEl = document.getElementById('currentTime');
+      if (dateEl && timeEl) {
+          const now = new Date();
+          dateEl.textContent = now.toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
+          timeEl.textContent = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+          dateEl.classList.remove('loading-pulse');
+          timeEl.classList.remove('loading-pulse');
+      }
+  }
+
+  setInterval(() => { if (currentView === 'stats') updateDateTime(); }, 1000);
+  setInterval(() => { if (currentView === 'stats') updateBatteryLevel(); }, 60000);
+
+  const greetingElement = document.getElementById('greeting');
+  function getGreeting() {
+      const hour = new Date().getHours();
+      if (hour < 12) return "Good Morning";
+      if (hour < 18) return "Good Afternoon";
+      if (hour < 22) return "Good Evening";
+      return "Good Night";
+  }
+
+  function updateGreeting() { greetingElement.textContent = getGreeting(); }
+  updateGreeting();
+  setInterval(updateGreeting, 60000);
+
+  function debounce(func, delay) {
+      let timeoutId;
+      return function(...args) {
+          clearTimeout(timeoutId);
+          timeoutId = setTimeout(() => func.apply(this, args), delay);
+      };
+  }
+
+// Add a dedicated event listener for the search input after page renders
+function setupSearchListener() {
+  const searchInput = document.getElementById('apiSearch');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      debouncedSearch(e.target.value);
     });
+  }
+}
 
-    closeNotificationsBtn.addEventListener('click', () => notificationsDropdown.classList.remove('show'));
+  const mainContent = document.getElementById('mainContent');
+  mainContent.addEventListener('click', (e) => {
+      // Only handle clicks on the "View Details" button
+      const viewDetailsBtn = e.target.closest('.view-api-btn');
+      if (viewDetailsBtn) {
+          const apiName = viewDetailsBtn.dataset.apiName;
+          const api = apiList.find(a => a.name === apiName);
+          if (api) {
+              renderApiDetailPage(api);
+              savePageState();
+          }
+      }
+  });
 
-    document.getElementById('readAllNotifications').addEventListener('click', () => {
-        notifications.forEach(n => n.read = true);
-        renderNotifications();
-        updateNotificationIndicator();
-        savePageState();
-    });
+// Remove the existing input event listener from mainContent
+// mainContent.addEventListener('input', (e) => {
+//   if (e.target.id === 'apiSearch') {
+//     debouncedSearch(e.target.value);
+//   }
+// });
 
-    function updateNotificationIndicator() {
-        const unreadCount = notifications.filter(n => !n.read).length;
-        const indicator = document.getElementById('notification-indicator');
-        if (unreadCount > 0) {
-            if (!indicator) {
-                const newIndicator = document.createElement('div');
-                newIndicator.id = 'notification-indicator';
-                newIndicator.className = 'absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center text-xs text-white font-bold';
-                newIndicator.textContent = unreadCount > 9 ? '9+' : unreadCount;
-                showNotificationsBtn.appendChild(newIndicator);
-            } else {
-                indicator.textContent = unreadCount > 9 ? '9+' : unreadCount;
-            }
-        } else if (indicator) indicator.remove();
-    }
+async function fetchConfig() {
+      if (window.appConfig) return window.appConfig;
+      try {
+          const response = await fetch('/api/info');
+          return (await response.json()).config;
+      } catch (error) {
+          console.error('Error fetching config:', error);
+          return {};
+      }
+  }
 
-    document.addEventListener('click', (e) => {
-        if (!notificationsDropdown.contains(e.target) && !showNotificationsBtn.contains(e.target))
-            notificationsDropdown.classList.remove('show');
-    });
+  async function updateDynamicContent() {
+      const config = await fetchConfig();
+      document.title = config.title || 'API Dashboard Pro';
+      document.getElementById('sidebarTitleText').textContent = config.title || 'API Dashboard Pro';
+      notifications = (config.notifications || []).map(n => ({ ...n, read: n.read || false }));
+      updateNotificationIndicator();
+      if (config.favicon) {
+          let favicon = document.querySelector('link[rel="icon"]');
+          if (!favicon) {
+              favicon = document.createElement('link');
+              favicon.rel = 'icon';
+              document.head.appendChild(favicon);
+          }
+          favicon.href = config.favicon;
+      }
+  }
 
-    function renderNotifications() {
-        const notificationsList = document.getElementById('notificationsList');
-        if (notifications.length === 0) {
-            notificationsList.innerHTML = `<div class="text-gray-400 text-sm py-2 text-center">No notifications</div>`;
-            return;
-        }
-        notificationsList.innerHTML = notifications.map((n, i) => `
-            <div class="py-3 ${i !== 0 ? 'border-t border-gray-700' : ''} ${n.read ? 'opacity-60' : ''}" data-notification-id="${i}">
-                <div class="flex justify-between items-start mb-1">
-                    <h4 class="text-sm font-semibold gradient-text">${n.title} ${!n.read ? '<span class="inline-block w-2 h-2 bg-blue-500 rounded-full ml-1"></span>' : ''}</h4>
-                    <button class="mark-read-btn text-xs text-gray-400 hover:text-white px-1.5 py-0.5 rounded hover:bg-gray-700 transition-colors duration-200" data-notification-id="${i}">
-                        ${n.read ? 'Mark unread' : 'Mark read'}
-                    </button>
-                </div>
-                <p class="text-gray-300 text-xs">${n.description}</p>
-            </div>
-        `).join('');
-        document.querySelectorAll('.mark-read-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const id = parseInt(e.currentTarget.dataset.notificationId);
-                notifications[id].read = !notifications[id].read;
-                renderNotifications();
-                updateNotificationIndicator();
-                savePageState();
-            });
-        });
-    }
+  async function initializeDashboard() {
+      showCenterLoading();  // Show center loading animation before fetching data
+      await fetchApiList();
+      await updateDynamicContent();
+      if (!loadPageState()) {
+          renderHomePage();
+      }
+      hideCenterLoading();  // Hide center loading animation after rendering
+  }
 
-    const sidebar = document.getElementById('sidebar');
-    const toggleSidebarBtn = document.getElementById('toggleSidebar');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
-    const homeLink = document.getElementById('homeLink');
-    const statsLink = document.getElementById('statsLink');
+  initializeDashboard();
+  setTimeout(updateNotificationIndicator, 1000);
 
-    function toggleSidebar() {
-        sidebar.classList.toggle('-translate-x-full');
-        sidebarOverlay.classList.toggle('hidden');
-        document.body.classList.toggle('sidebar-open');
-    }
+  // Center Loading Functions with progress bar
+  function showCenterLoading() {
+      const centerLoading = document.getElementById('centerLoading');
+      const loadingBar = document.getElementById('loadingBar');
+      centerLoading.classList.remove('hidden');
+      
+      // Reset loading bar
+      loadingBar.style.width = '0%';
+      
+      // Animate loading bar to 100% quickly
+      setTimeout(() => {
+          loadingBar.style.width = '30%';
+      }, 100);
+      
+      setTimeout(() => {
+          loadingBar.style.width = '60%';
+      }, 300);
+      
+      setTimeout(() => {
+          loadingBar.style.width = '90%';
+      }, 500);
+  }
 
-    toggleSidebarBtn.addEventListener('click', toggleSidebar);
-    sidebarOverlay.addEventListener('click', toggleSidebar);
-
-    homeLink.addEventListener('click', () => {
-        renderHomePage();
-        closeSidebarOnMobile();
-        savePageState();
-    });
-
-    statsLink.addEventListener('click', () => {
-        renderStatsPage();
-        closeSidebarOnMobile();
-        savePageState();
-    });
-
-    function closeSidebarOnMobile() {
-        if (window.innerWidth < 768) toggleSidebar();
-    }
-
-    function updateSidebarActiveState(activeItemId) {
-        document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
-        document.getElementById(activeItemId).classList.add('active');
-    }
-
-    function updateBatteryLevel() {
-        const batteryEl = document.getElementById('batteryLevel');
-        if (batteryEl && 'getBattery' in navigator) {
-            navigator.getBattery().then(battery => {
-                batteryEl.textContent = `${Math.round(battery.level * 100)}%`;
-                batteryEl.classList.remove('loading-pulse');
-            });
-        } else if (batteryEl) {
-            batteryEl.textContent = 'Not available';
-            batteryEl.classList.remove('loading-pulse');
-        }
-    }
-
-    function updateDateTime() {
-        const dateEl = document.getElementById('currentDate');
-        const timeEl = document.getElementById('currentTime');
-        if (dateEl && timeEl) {
-            const now = new Date();
-            dateEl.textContent = now.toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
-            timeEl.textContent = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-            dateEl.classList.remove('loading-pulse');
-            timeEl.classList.remove('loading-pulse');
-        }
-    }
-
-    setInterval(() => { if (currentView === 'stats') updateDateTime(); }, 1000);
-    setInterval(() => { if (currentView === 'stats') updateBatteryLevel(); }, 60000);
-
-    const greetingElement = document.getElementById('greeting');
-    function getGreeting() {
-        const hour = new Date().getHours();
-        if (hour < 12) return "Good Morning";
-        if (hour < 18) return "Good Afternoon";
-        if (hour < 22) return "Good Evening";
-        return "Good Night";
-    }
-
-    function updateGreeting() { greetingElement.textContent = getGreeting(); }
-    updateGreeting();
-    setInterval(updateGreeting, 60000);
-
-    function showWelcomePopup() {
-        const welcomePopup = document.getElementById('welcomePopup');
-        const closeWelcomePopupBtn = document.getElementById('closeWelcomePopup');
-        const isHomePage = window.location.pathname === '/' || window.location.pathname === '/portal.html';
-        if (isHomePage && !localStorage.getItem('welcomePopupShown')) {
-            welcomePopup.classList.remove('hidden');
-            closeWelcomePopupBtn.classList.add('animate-pulse-scale');
-            closeWelcomePopupBtn.addEventListener('click', () => {
-                closeWelcomePopupBtn.classList.remove('animate-pulse-scale');
-                welcomePopup.classList.add('hidden');
-                localStorage.setItem('welcomePopupShown', 'true');
-            });
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', showWelcomePopup);
-
-    function debounce(func, delay) {
-        let timeoutId;
-        return function(...args) {
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => func.apply(this, args), delay);
-        };
-    }
-
-    const debouncedSearch = debounce((searchTerm) => {
-        if (searchTerm === '') renderHomePage();
-        else {
-            const filteredApis = apiList.filter(api =>
-                api.name.toLowerCase().includes(searchTerm) ||
-                api.description.toLowerCase().includes(searchTerm) ||
-                api.category.toLowerCase().includes(searchTerm)
-            );
-            renderFilteredHomePage(filteredApis, searchTerm);
-        }
-    }, 300);
-
-    const mainContent = document.getElementById('mainContent');
-    mainContent.addEventListener('click', (e) => {
-        const target = e.target.closest('.api-card, .view-api-btn');
-        if (target) {
-            const apiName = target.dataset.apiName;
-            const api = apiList.find(a => a.name === apiName);
-            if (api) {
-                renderApiDetailPage(api);
-                savePageState();
-            }
-        }
-    });
-
-    mainContent.addEventListener('input', (e) => {
-        if (e.target.id === 'apiSearch') debouncedSearch(e.target.value.toLowerCase());
-    });
-
-    async function fetchConfig() {
-        if (window.appConfig) return window.appConfig;
-        try {
-            const response = await fetch('/api/info');
-            return (await response.json()).config;
-        } catch (error) {
-            console.error('Error fetching config:', error);
-            return {};
-        }
-    }
-
-    async function updateDynamicContent() {
-        const config = await fetchConfig();
-        document.title = config.title || 'API Dashboard Pro';
-        document.getElementById('sidebarTitleText').textContent = config.title || 'API Dashboard Pro';
-        document.getElementById('welcomeTitle').textContent = `Welcome to ${config.title || 'API Dashboard Pro'}!`;
-        notifications = (config.notifications || []).map(n => ({ ...n, read: n.read || false }));
-        updateNotificationIndicator();
-        if (config.favicon) {
-            let favicon = document.querySelector('link[rel="icon"]');
-            if (!favicon) {
-                favicon = document.createElement('link');
-                favicon.rel = 'icon';
-                document.head.appendChild(favicon);
-            }
-            favicon.href = config.favicon;
-        }
-    }
-
-    async function initializeDashboard() {
-        showLoadingBar();  // Show loading bar before fetching data
-        await fetchApiList();
-        await updateDynamicContent();
-        if (!loadPageState()) {
-            renderHomePage();
-        }
-        hideLoadingBar();  // Hide loading bar after rendering
-    }
-
-    initializeDashboard();
-    setTimeout(updateNotificationIndicator, 1000);
-
-    // Loading Bar Functions
-    function showLoadingBar() {
-        const loadingBar = document.getElementById('loadingBar');
-        loadingBar.classList.remove('hidden');
-    }
-
-    function hideLoadingBar() {
-        const loadingBar = document.getElementById('loadingBar');
-        loadingBar.classList.add('hidden');
-    }
-    </script>
+  function hideCenterLoading() {
+      const centerLoading = document.getElementById('centerLoading');
+      const loadingBar = document.getElementById('loadingBar');
+      
+      // Complete the loading bar
+      loadingBar.style.width = '100%';
+      
+      // Hide after a short delay to show completion
+      setTimeout(() => {
+          centerLoading.classList.add('hidden');
+      }, 300);
+  }
+  </script>
 </body>
 </html>
